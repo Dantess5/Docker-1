@@ -75,9 +75,12 @@
                                     <td th:text="${user.surname}"/>
                                     <td th:text="${user.age}"/>
                                     <td th:text="${user.s}"> </td>
-                                    <td> <a th:href="@{/admin/{id}/edit(id=${user.getId()})}"><input type="submit" value="Edit"/></a></td>
+                                    <td><a th:href="@{/admin/{id}/edit(id=${user.getId()})}" data-toggle="modal"
+                                           data-target="#editModal">
+                                        <button type="button" class="btn btn-info">Edit</button>
+                                    </td>
                                     <td><form th:method="DELETE" th:action="@{/admin/{id}(id=${user.getId()})}">
-                                        <input type="submit" value="Delete"/>
+                                        <button type="button" class="btn btn-danger">Delete</button>
                                     </form></td>
                                 </tr>
 
@@ -146,7 +149,64 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog" >
+        <div class="modal-content" th:method="PATCH" th:action="@{/admin/{id}(id=${user.getId()})}" th:object="${user}">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Edit user</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="container-fluid">
+                <div class="modal-body">
+                    <form>
+                        <!--                        <div class="container">-->
+                        <div class="row justify-content-center">
+                            <div class="col-8 text-center form-group">
+                                <label for="id"><b>ID</b></label>
+                                <input type="text" th:field="*{id}" id="id" class="form-control" disabled/>
+                            </div>
+                            <div class="col-8 text-center form-group">
+                                <label for="usernameEdit"><b>Username</b></label>
+                                <input type="text" class="form-control" th:field="*{username}" id="usernameEdit"/>
+                            </div>
 
+                            <div class="col-8 text-center form-group">
+                                <label for="surnameEdit"><b>Surname</b></label>
+                                <input type="text" class="form-control" th:field="*{surname}" id="surnameEdit"/>
+                            </div>
+                            <div class="col-8 text-center form-group">
+
+                                <label for="ageEdit"><b>Username</b></label>
+                                <input type="number" name="t"  th:field="*{username}"  min="0" max="150" step="1" class="form-control" id="ageEdit"/>
+                            </div>
+                            <div class="col-8 text-center form-group">
+                                <!--                                <label class="col-4 col-form-label">Roles: </label>-->
+                                <!--                                    <th:block th:each="role: ${listRoles}">-->
+                                <!--                                        <input type="checkbox" th:field="*{roles}"-->
+                                <!--                                               th:text="${role.getAuthority()}" th:value="${role.getId()}" class="m-2" />-->
+                                <!--                                    </th:block>-->
+                                <!--                                </div>-->
+                                <label class="col-8" for="rolesEdit"><b>Roles:</b></label>
+                                <select class="col-8" name="select" id="rolesEdit" size="2" multiple>
+                                    <option th:field="*{roles}" value="s1">ADMIN</option>
+                                    <option th:field="*{roles}" value="s4">USER</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!--                        </div>-->
+
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Edit</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <body/>
 </html>

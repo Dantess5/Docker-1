@@ -59,7 +59,7 @@ public class AdminController {
 
     @GetMapping("/admin/users")
     public String getUsers(Model model,@ModelAttribute("user") @Valid User user
-            , BindingResult bindingResult) {
+            , BindingResult bindingResult  ) {
         User auth = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         model.addAttribute("users", userServiceImpl.getAllUsers());
         model.addAttribute("person", userServiceImpl.findUserByUsername(auth.getUsername()));
