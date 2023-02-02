@@ -12,7 +12,6 @@ import java.util.Collection;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 
 @Entity
@@ -48,7 +47,6 @@ public class User implements UserDetails {
             , inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<Role> roles;
 
-
     public User(String name, String surname, Integer age,String password) {
         this.username = name;
         this.surname = surname;
@@ -56,7 +54,15 @@ public class User implements UserDetails {
         this.password = password;
     }
 
+
     public User() {
+    }
+    private String s;
+
+    public String getS() {
+        return getRoles().toString().replace("[", "")
+                .replace("]", "")
+                .replace("ROLE_", "");
     }
 
     public Long getId() {
@@ -90,7 +96,6 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-
 
 
     public List<Role> getRoles() {
@@ -135,15 +140,23 @@ public class User implements UserDetails {
     }
 
 
+//    @Override
+//    public String toString() {
+//        return "User{" +
+//                "id=" + id +
+//                ", name='" + username + '\'' +
+//                ", surname='" + surname + '\'' +
+//                ", age=" + age +
+//                ", password='" + password + '\'' +
+//                ", role=" + roles +
+//                '}';
+//    }
+
+
     @Override
     public String toString() {
         return "User{" +
-                "id=" + id +
-                ", name='" + username + '\'' +
-                ", surname='" + surname + '\'' +
-                ", age=" + age +
-                ", password='" + password + '\'' +
-                ", role=" + roles +
+                "roles=" + roles +
                 '}';
     }
 

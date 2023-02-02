@@ -6,7 +6,7 @@
 </head>
 <body>
 <h3>New User</h3>
-<form th:method="POST" th:action="@{/admin/registration}" th:object="${user}">
+<form th:method="POST" th:action="@{/admin/registration}" th:object="${userAdd}">
     <label for="username">Enter name: </label>
     <input type="text" th:field="*{username}" id="username"/>
     <div style="color:red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Username Error</div>
@@ -19,11 +19,19 @@
     <input type="text" th:field="*{age}" id="age"/>
     <div style="color:red" th:if="${#fields.hasErrors('age')}" th:errors="*{age}">Year of birth Error</div>
     <br/>
-    <label for="password">Enter password: </label>
+    <label for="password">Enter : </label>
     <input type="text" th:field="*{password}" id="password"/>
     <div style="color:red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password Error</div>
-
-
+    <br/>
+    <div class="form-group row">
+        <label class="col-4 col-form-label">Roles: </label>
+        <div class="col-8">
+            <th:block th:each="role: ${listRoles}">
+                <input type="checkbox" th:field="*{roles}"
+                       th:text="${role.getAuthority()}" th:value="${role.getId()}" class="m-2" />
+            </th:block>
+        </div>
+    </div>
     <br/>
     <input type="submit" value="Create!"/>
 </form>
