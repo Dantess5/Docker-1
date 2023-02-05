@@ -16,14 +16,14 @@ public class Role implements GrantedAuthority {
     private Long id;
 
     private String role;
-    public Role() {
-    }
+
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "users_roles"
             , joinColumns = @JoinColumn(name = "role_id")
             , inverseJoinColumns = @JoinColumn(name = "user_id"))
     private List<User> users;
-
+    public Role() {
+    }
     public Role(String role) {
         this.role = role;
     }

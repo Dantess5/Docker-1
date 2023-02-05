@@ -170,18 +170,16 @@
 
                                             </td>
                                             <td>
-                                                <button type="button" class="btn btn-danger" data-toggle="modal"
-                                                        th:data-target="${'#deleteModal'+userfromtable.id}">
-                                                    Delete
-                                                </button>
+                                                <form th:method="DELETE" th:action="@{/admin/{id}(id=${userfromtable.getId()})}">
+                                                    <input type="submit" value="Delete"/>
+                                                </form>
                                                 <div class="modal fade"
                                                      th:id="${'deleteModal'+userfromtable.id}" tabindex="-1" role="dialog"
                                                      aria-labelledby="deleteModalLabel" aria-hidden="true">
                                                     <div class="modal-dialog" role="document">
                                                         <div class="modal-content">
                                                             <form th:method="DELETE"
-                                                                  th:action="@{/admin/{id}(id=${userfromtable.getId()})}"
-                                                                  th:object="${userfromtable}">
+                                                                  th:action="@{/admin/{id}(id=${userfromtable.getId()})}">
                                                                 <div class="modal-header">
                                                                     <h5 class="modal-title" id="daleteModalLabel">Delete
                                                                         user</h5>

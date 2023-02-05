@@ -82,10 +82,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
     @Transactional
     public void deleteUser(Long userId) {
-        if (userRepository.findById(userId).isPresent()) {
-            userRepository.deleteById(userId);
-        }
-
+        userRepository.deleteById(userId);
     }
 
     @Transactional
