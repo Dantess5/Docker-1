@@ -62,9 +62,10 @@ public class AdminController {
             , BindingResult bindingResult  ) {
         User auth = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         model.addAttribute("users", userServiceImpl.getAllUsers());
-        model.addAttribute("person", userServiceImpl.findUserByUsername(auth.getUsername()));
+        model.addAttribute("person", auth);
         model.addAttribute("listRoles", userServiceImpl.getUserRoles());
         model.addAttribute("userpage", userServiceImpl.findUserById(auth.getId()));
+
         return "admin/users";
     }
 
@@ -75,7 +76,7 @@ public class AdminController {
     }
 
     @PatchMapping("/admin/{id}")
-    public String update(@ModelAttribute("userfromtable") User user
+    public String update(@ModelAttribute("user") User user
             , @PathVariable("id") Long id) {
         userServiceImpl.updateUser(id, user);
         return "redirect:/admin/users";
