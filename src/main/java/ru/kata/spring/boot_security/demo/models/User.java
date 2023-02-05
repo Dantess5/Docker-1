@@ -57,6 +57,7 @@ public class User implements UserDetails {
 
     public User() {
     }
+    @Transient
     private String s;
 
     public String getS() {
