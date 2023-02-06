@@ -87,7 +87,8 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
     @Transactional
     public void updateUser(Long userId, User user) {
-        if (userRepository.findById(userId).isPresent()) {
+        if (userRepository.findById(userId).isPresent() && userRepository.findByUsername(user.getUsername()) == null) {
+
             entityManager.merge(user);
         }
 

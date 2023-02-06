@@ -62,10 +62,9 @@ public class AdminController {
             , BindingResult bindingResult  ) {
         User auth = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         model.addAttribute("users", userServiceImpl.getAllUsers());
-        model.addAttribute("person", auth);
+        model.addAttribute("person", userServiceImpl.findUserByUsername(auth.getUsername()));
         model.addAttribute("listRoles", userServiceImpl.getUserRoles());
         model.addAttribute("userpage", userServiceImpl.findUserById(auth.getId()));
-
         return "admin/users";
     }
 
