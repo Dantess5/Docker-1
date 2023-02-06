@@ -33,12 +33,13 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         this.roleRepository = roleRepository;
     }
 
-
+    @Override
     public User findUserByUsername(String username) {
         return userRepository.findByUsername(username);
     }
 
 
+    @Override
     public User findUserById(Long userId) {
         Optional<User> userFromDb = userRepository.findById(userId);
         return userFromDb.orElse(new User());
@@ -70,6 +71,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     }
 
     @Transactional
+    @Override
     public void saveUser(User user) {
         User userFromDB = userRepository.findByUsername(user.getUsername());
 
@@ -87,12 +89,11 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     }
 
     @Transactional
+    @Override
     public void updateUser(Long userId, User user) {
-        if (userRepository.findById(userId).isPresent() && userRepository.findByUsername(user.getUsername()) == null) {
-            User usernew = new User();
-            usernew.setId(userId);
-            usernew.s
-           entityManager.merge(user);
+        if (userRepository.findById(userId).isPresent()) {
+            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+            entityManager.merge(user);
         }
 
     }

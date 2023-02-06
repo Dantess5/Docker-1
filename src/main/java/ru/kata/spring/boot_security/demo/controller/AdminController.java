@@ -6,15 +6,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import ru.kata.spring.boot_security.demo.Util.UserValidator;
-import ru.kata.spring.boot_security.demo.models.Role;
+import ru.kata.spring.boot_security.demo.util.UserValidator;
 import ru.kata.spring.boot_security.demo.models.User;
-import ru.kata.spring.boot_security.demo.service.RoleServiceImpl;
 import ru.kata.spring.boot_security.demo.service.UserServiceImpl;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.List;
+
 @Controller
 public class AdminController {
     private final UserServiceImpl userServiceImpl;
@@ -32,15 +29,6 @@ public class AdminController {
         return "index";
     }
 
-
-
-    @GetMapping("/admin/show")
-    public String getUser(Model model) {
-        User auth = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        model.addAttribute("user", userServiceImpl.findUserById(auth.getId()));
-//        model.addAttribute("listRoles", userServiceImpl.getUserRoles());
-        return "users/show";
-    }
     @GetMapping("/admin/registration")
     public String registrationPage(@ModelAttribute("user") User user, Model model) {
         model.addAttribute("listRoles", userServiceImpl.getUserRoles());
@@ -52,7 +40,7 @@ public class AdminController {
             , BindingResult bindingResult) {
         userValidator.validate(user, bindingResult);
         if (bindingResult.hasErrors()) {
-            return "/admin/registration";
+            return "redirect:/admin/users";
         }
         userServiceImpl.saveUser(user);
         return "redirect:/admin/users";

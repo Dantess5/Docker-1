@@ -114,7 +114,8 @@
                                                                                 <input type="text" class="form-control"
                                                                                        th:name="username"
                                                                                        th:value="${userfromtable.username}"
-                                                                                       id="usernameEdit"/>
+                                                                                       id="usernameEdit"
+                                                                                       required/>
                                                                             </div>
 
                                                                             <div class="col-7 text-center form-group">
@@ -122,7 +123,7 @@
                                                                                 <input type="text" class="form-control"
                                                                                        th:name="surname"
                                                                                        th:value="${userfromtable.surname}"
-
+                                                                                        required
                                                                                        id="surnameEdit"/>
                                                                             </div>
                                                                             <div class="col-7 text-center form-group">
@@ -134,13 +135,14 @@
                                                                                        min="0"
                                                                                        max="150" step="1"
                                                                                        class="form-control"
-                                                                                       id="ageEdit"/>
+                                                                                       id="ageEdit"
+                                                                                       required/>
                                                                             </div>
                                                                             <div class="col-7 text-center form-group">
                                                                                 <label for="passwordEdit"><b>Password</b></label>
                                                                                 <input type="password" class="form-control"
                                                                                        th:name="password"
-                                                                                       th:text="${userfromtable.password}"
+                                                                                       th:value="${userfromtable.password}"
                                                                                        id="passwordEdit" readonly/>
                                                                             </div>
                                                                             <div class="col-7 text-center form-group">
@@ -238,8 +240,8 @@
                                                                                         id="rolesDelete" name="roles"
                                                                                         size="2"
                                                                                         disabled>
-                                                                                    <option th:each="role: ${listRoles}" th:value="${role.getId()}">
-                                                                                        <th:block th:text="${role.getAuthority()}">
+                                                                                    <option >
+                                                                                        <th:block th:text="${userfromtable.stringRoles}">
                                                                                         </th:block>
                                                                                     </option>
                                                                                 </select>
