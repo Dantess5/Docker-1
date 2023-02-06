@@ -15,7 +15,7 @@
                 <span style="font-size: large; color: rgb(255, 255, 255); ">  <b
                         th:text="${user.username}">TEXT</b></span>
                 <span style="font-size: medium; color: rgb(255, 255, 255); "> with roles:</span>
-                <span style="font-size: large; color: rgb(255, 255, 255); "> <td th:text="${user.s}">TEXT<td/></span>
+                <span style="font-size: large; color: rgb(255, 255, 255); "> <td th:text="${user.stringRoles}">TEXT<td/></span>
             </div>
         </span>
     <div>
@@ -60,7 +60,7 @@
                                 <td th:text="${user.username}"/>
                                 <td th:text="${user.surname}"/>
                                 <td th:text="${user.age}"/>
-                                <td th:text="${user.s}"></td>
+                                <td th:text="${user.stringRoles}"></td>
                                 </tr>
 
                                 </tbody>

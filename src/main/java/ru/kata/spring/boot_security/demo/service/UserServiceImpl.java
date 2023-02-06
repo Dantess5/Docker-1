@@ -22,8 +22,8 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     @PersistenceContext
     private EntityManager entityManager;
 
-    private UserRepository userRepository;
-    private PasswordEncoder bCryptPasswordEncoder;
+    private final UserRepository userRepository;
+    private final PasswordEncoder bCryptPasswordEncoder;
     private final RoleRepository roleRepository;
 
     @Autowired
@@ -89,10 +89,10 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     @Transactional
     public void updateUser(Long userId, User user) {
         if (userRepository.findById(userId).isPresent() && userRepository.findByUsername(user.getUsername()) == null) {
-
-            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-            user.setId(userId);
-            userRepository.save(user);
+            User usernew = new User();
+            usernew.setId(userId);
+            usernew.s
+           entityManager.merge(user);
         }
 
     }

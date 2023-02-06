@@ -15,7 +15,7 @@
                 <span style="font-size: large; color: rgb(255, 255, 255); ">  <b
                         th:text="${person.username}">TEXT</b></span>
                 <span style="font-size: medium; color: rgb(255, 255, 255); "> with roles:</span>
-                <span style="font-size: large; color: rgb(255, 255, 255); "> <td th:text="${person.s}">TEXT<td/></span>
+                <span style="font-size: large; color: rgb(255, 255, 255); "> <td th:text="${person.stringRoles}">TEXT<td/></span>
             </div>
         </span>
     <div>
@@ -75,7 +75,7 @@
                                             <td th:text="${userfromtable.username}"/>
                                             <td th:text="${userfromtable.surname}"/>
                                             <td th:text="${userfromtable.age}"/>
-                                            <td th:text="${userfromtable.s}"></td>
+                                            <td th:text="${userfromtable.stringRoles}"></td>
                                             <td>
                                                 <button type="button" class="btn btn-info" data-toggle="modal"
                                                         th:data-target="${'#editModal'+userfromtable.id}">
@@ -105,7 +105,7 @@
                                                                             <div class="col-7 text-center form-group">
                                                                                 <label for="idEdit"><b>ID</b></label>
                                                                                 <input type="text"
-                                                                                       th:value="*{id}"
+                                                                                       th:value="${userfromtable.id}"
                                                                                        id="idEdit" class="form-control"
                                                                                        disabled/>
                                                                             </div>
@@ -113,7 +113,7 @@
                                                                                 <label for="usernameEdit"><b>Username</b></label>
                                                                                 <input type="text" class="form-control"
                                                                                        th:name="username"
-                                                                                       th:value="*{username}"
+                                                                                       th:value="${userfromtable.username}"
                                                                                        id="usernameEdit"/>
                                                                             </div>
 
@@ -121,7 +121,8 @@
                                                                                 <label for="surnameEdit"><b>Surname</b></label>
                                                                                 <input type="text" class="form-control"
                                                                                        th:name="surname"
-                                                                                       th:value="*{surname}"
+                                                                                       th:value="${userfromtable.surname}"
+
                                                                                        id="surnameEdit"/>
                                                                             </div>
                                                                             <div class="col-7 text-center form-group">
@@ -129,7 +130,7 @@
                                                                                 <label for="ageEdit"><b>Age</b></label>
                                                                                 <input type="number" name="t"
                                                                                        th:name="age"
-                                                                                       th:value="*{age}"
+                                                                                       th:value="${userfromtable.age}"
                                                                                        min="0"
                                                                                        max="150" step="1"
                                                                                        class="form-control"
@@ -139,7 +140,7 @@
                                                                                 <label for="passwordEdit"><b>Password</b></label>
                                                                                 <input type="password" class="form-control"
                                                                                        th:name="password"
-                                                                                       th:value="*{password}"
+                                                                                       th:text="${userfromtable.password}"
                                                                                        id="passwordEdit" readonly/>
                                                                             </div>
                                                                             <div class="col-7 text-center form-group">
@@ -359,7 +360,7 @@
                                 <td th:text="${person.username}"/>
                                 <td th:text="${person.surname}"/>
                                 <td th:text="${person.age}"/>
-                                <td th:text="${person.s}"></td>
+                                <td th:text="${person.stringRoles}"></td>
                                 </tr>
 
                                 </tbody>

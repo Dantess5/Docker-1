@@ -7,11 +7,11 @@ import java.util.Objects;
 
 
 @Entity
-@Table(name = "roles")
+@Table(name = "role")
 public class Role implements GrantedAuthority {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    @Column(name = "id_role")
+    @Column(name = "role_id", nullable = false)
     private Long id;
 
     private String role;
@@ -44,6 +44,10 @@ public class Role implements GrantedAuthority {
     }
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public String getRole() {
+        return role;
     }
 
     @Override

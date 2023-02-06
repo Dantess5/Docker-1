@@ -18,15 +18,12 @@ import java.util.List;
 @Controller
 public class AdminController {
     private final UserServiceImpl userServiceImpl;
-    private final RoleServiceImpl roleServiceImpl;
     private final UserValidator userValidator;
 
 
     @Autowired
-    public AdminController(UserServiceImpl userServiceImpl,
-                           RoleServiceImpl roleServiceImpl, UserValidator userValidator) {
+    public AdminController(UserServiceImpl userServiceImpl, UserValidator userValidator) {
         this.userServiceImpl = userServiceImpl;
-        this.roleServiceImpl = roleServiceImpl;
         this.userValidator = userValidator;
     }
 
@@ -54,7 +51,6 @@ public class AdminController {
     public String perfomRegistration(@ModelAttribute("userAdd") @Valid User user
             , BindingResult bindingResult) {
         userValidator.validate(user, bindingResult);
-
         if (bindingResult.hasErrors()) {
             return "/admin/registration";
         }
@@ -69,32 +65,24 @@ public class AdminController {
         model.addAttribute("users", userServiceImpl.getAllUsers());
         model.addAttribute("person", userServiceImpl.findUserByUsername(auth.getUsername()));
         model.addAttribute("listRoles", userServiceImpl.getUserRoles());
-        model.addAttribute("userpage", userServiceImpl.findUserById(auth.getId()));
         return "admin/users";
     }
 
     @GetMapping("/admin/{id}/edit")
     public String edit(Model model, @PathVariable("id") Long id) {
-        model.addAttribute("user", userServiceImpl.findUserById(id));
+        model.addAttribute("userEdit", userServiceImpl.findUserById(id));
         return "admin/edit";
     }
 
     @PatchMapping("/admin/{id}")
-    public String update(@ModelAttribute("user") User user, @RequestParam("roles") Long[] rolesId
+    public String update(@ModelAttribute("user") User user
             , @PathVariable("id") Long id) {
-        List<Role> roles=new ArrayList<>();
-
-        for (Long role:rolesId) {
-            roles.add(roleServiceImpl.show(role));
-        }
-//        user.setRoles(roles);
         userServiceImpl.updateUser(id, user);
         return "redirect:/admin/users";
     }
 
     @DeleteMapping("/admin/{id}")
     public String delete(@PathVariable("id") Long id) {
-
         userServiceImpl.deleteUser(id);
         return "redirect:/admin/users";
     }

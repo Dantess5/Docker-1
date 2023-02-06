@@ -17,10 +17,11 @@ import java.util.Objects;
 
 
 @Entity
-@Table(name = "user")
+@Table(name = "User")
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id", nullable = false)
     private Long id;
 
     @NotEmpty(message = "Имя не должно быть пустым")
@@ -44,11 +45,16 @@ public class User implements UserDetails {
     private String password;
 
     @Fetch(FetchMode.JOIN)
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinTable(name = "user_roles"
-            , joinColumns = @JoinColumn(name = "id_user")
-            , inverseJoinColumns = @JoinColumn(name = "id_roles"))
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JoinTable(
+            name = "User_Role",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
     private List<Role> roles;
+
+    public User() {
+    }
 
     public User(String name, String surname, Integer age,String password) {
         this.username = name;
@@ -57,29 +63,19 @@ public class User implements UserDetails {
         this.password = password;
     }
 
-
-    public User() {
-    }
     @Transient
-    private String s;
+    private String stringRoles;
 
-    public String getS() {
+    public String getStringRoles() {
         return getRoles().toString().replace("[", "")
                 .replace("]", "")
                 .replace(",", "")
                 .replace("ROLE_", "");
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return roles;
     }
 
     @Override
@@ -103,16 +99,28 @@ public class User implements UserDetails {
     }
 
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     public List<Role> getRoles() {
         return roles;
     }
 
     public void setRoles(List<Role> roles) {
         this.roles = roles;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public String getSurname() {
@@ -131,11 +139,6 @@ public class User implements UserDetails {
         this.age = age;
     }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles;
-    }
-
     public String getPassword() {
         return password;
     }
@@ -144,26 +147,6 @@ public class User implements UserDetails {
         this.password = password;
     }
 
-
-//    @Override
-//    public String toString() {
-//        return "User{" +
-//                "id=" + id +
-//                ", name='" + username + '\'' +
-//                ", surname='" + surname + '\'' +
-//                ", age=" + age +
-//                ", password='" + password + '\'' +
-//                ", role=" + roles +
-//                '}';
-//    }
-
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "roles=" + roles +
-                '}';
-    }
 
     @Override
     public boolean equals(Object o) {
