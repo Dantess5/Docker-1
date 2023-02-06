@@ -81,6 +81,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     }
 
     @Transactional
+    @Override
     public void deleteUser(Long userId) {
         userRepository.deleteById(userId);
     }
@@ -88,8 +89,8 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     @Transactional
     public void updateUser(Long userId, User user) {
         if (userRepository.findById(userId).isPresent() && userRepository.findByUsername(user.getUsername()) == null) {
-
-            entityManager.merge(user);
+            user.setId(userId);
+            userRepository.save(user);
         }
 
     }

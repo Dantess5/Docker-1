@@ -7,21 +7,26 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.Util.UserValidator;
+import ru.kata.spring.boot_security.demo.models.Role;
 import ru.kata.spring.boot_security.demo.models.User;
+import ru.kata.spring.boot_security.demo.service.RoleServiceImpl;
 import ru.kata.spring.boot_security.demo.service.UserServiceImpl;
 
 import javax.validation.Valid;
-
+import java.util.ArrayList;
+import java.util.List;
 @Controller
 public class AdminController {
     private final UserServiceImpl userServiceImpl;
+    private final RoleServiceImpl roleServiceImpl;
     private final UserValidator userValidator;
 
 
     @Autowired
     public AdminController(UserServiceImpl userServiceImpl,
-                           UserValidator userValidator) {
+                           RoleServiceImpl roleServiceImpl, UserValidator userValidator) {
         this.userServiceImpl = userServiceImpl;
+        this.roleServiceImpl = roleServiceImpl;
         this.userValidator = userValidator;
     }
 
@@ -75,14 +80,21 @@ public class AdminController {
     }
 
     @PatchMapping("/admin/{id}")
-    public String update(@ModelAttribute("user") User user
+    public String update(@ModelAttribute("user") User user, @RequestParam("roles") Long[] rolesId
             , @PathVariable("id") Long id) {
+        List<Role> roles=new ArrayList<>();
+
+        for (Long role:rolesId) {
+            roles.add(roleServiceImpl.show(role));
+        }
+        user.setRoles(roles);
         userServiceImpl.updateUser(id, user);
         return "redirect:/admin/users";
     }
 
     @DeleteMapping("/admin/{id}")
     public String delete(@PathVariable("id") Long id) {
+
         userServiceImpl.deleteUser(id);
         return "redirect:/admin/users";
     }
