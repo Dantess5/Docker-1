@@ -89,6 +89,8 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     @Transactional
     public void updateUser(Long userId, User user) {
         if (userRepository.findById(userId).isPresent() && userRepository.findByUsername(user.getUsername()) == null) {
+
+            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
             user.setId(userId);
             userRepository.save(user);
         }

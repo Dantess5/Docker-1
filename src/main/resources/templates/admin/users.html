@@ -150,10 +150,8 @@
                                                                                         id="rolesEdit" name="roles"
                                                                                         size="2"
                                                                                         required>
-                                                                                    <option th:each="role:${listRoles}"
-                                                                                            th:value="${role.id}"
-                                                                                            th:selected="${userfromtable.roles.contains(role)}">
-                                                                                        <th:block th:text="${role.toString()}">
+                                                                                    <option th:each="role: ${listRoles}" th:value="${role.getId()}">
+                                                                                        <th:block th:text="${role.getAuthority()}">
                                                                                         </th:block>
                                                                                     </option>
                                                                                 </select>

@@ -87,7 +87,7 @@ public class AdminController {
         for (Long role:rolesId) {
             roles.add(roleServiceImpl.show(role));
         }
-        user.setRoles(roles);
+//        user.setRoles(roles);
         userServiceImpl.updateUser(id, user);
         return "redirect:/admin/users";
     }
