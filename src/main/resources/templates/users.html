@@ -6,17 +6,7 @@
     <title>Admin</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css"
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-            crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-            crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-            crossorigin="anonymous"></script>
 
-    <script type="text/javascript" src="addNewUser.js"></script>
 </head>
 <body>
 
@@ -81,7 +71,163 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <div id="modal1"></div>
+                                        <div class="modal fade"
+                                             id="editModal" tabindex="-1" role="dialog"
+                                             aria-labelledby="editModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <form id="editForm">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="editModalLabel">Edit
+                                                                user</h5>
+                                                            <button type="button" class="close"
+                                                                    data-dismiss="modal"
+                                                                    aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+
+                                                        <div class="modal-body">
+                                                            <div class="container">
+                                                                <div class="row justify-content-center">
+                                                                    <div class="col-7 text-center form-group">
+                                                                        <label for="idEdit"><b>ID</b></label>
+                                                                        <input type="text"
+                                                                               id="idEdit" class="form-control"
+                                                                               disabled/>
+                                                                    </div>
+                                                                    <div class="col-7 text-center form-group">
+                                                                        <label for="usernameEdit"><b>Username</b></label>
+                                                                        <input type="text" class="form-control"
+                                                                               id="usernameEdit"
+                                                                               required/>
+                                                                    </div>
+
+                                                                    <div class="col-7 text-center form-group">
+                                                                        <label for="surnameEdit"><b>Surname</b></label>
+                                                                        <input type="text" class="form-control"
+                                                                               required
+                                                                               id="surnameEdit"/>
+                                                                    </div>
+                                                                    <div class="col-7 text-center form-group">
+
+                                                                        <label for="ageEdit"><b>Age</b></label>
+                                                                        <input type="number" name="t"
+                                                                               min="0"
+                                                                               max="150" step="1"
+                                                                               class="form-control"
+                                                                               id="ageEdit"
+                                                                               required/>
+                                                                    </div>
+                                                                    <div class="col-7 text-center form-group">
+                                                                        <label for="passwordEdit"><b>Password</b></label>
+                                                                        <input type="password" class="form-control"
+                                                                               id="passwordEdit" required/>
+                                                                    </div>
+                                                                    <div class="col-7 text-center form-group">
+                                                                        <label class="col" for="rolesEdit">
+                                                                            <b>Role</b><br>
+                                                                            <select id="rolesEdit" class="form-select w-100" name="roles"
+                                                                                    multiple size="2" required>
+                                                                                <option value="ROLE_ADMIN">ADMIN</option>
+                                                                                <option value="ROLE_USER">USER</option>
+
+                                                                            </select>
+                                                                        </label>
+                                                                        </p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                    data-dismiss="modal">Close
+                                                            </button>
+                                                            <button type="submit" class="btn btn-primary"  onclick="editUser()">Edit
+                                                            </button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal fade"
+                                             id="deleteModal" tabindex="-1" role="dialog"
+                                             aria-labelledby="editModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <form id="deleteForm">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="deleteModalLabel">Edit
+                                                                user</h5>
+                                                            <button type="button" class="close"
+                                                                    data-dismiss="modal"
+                                                                    aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+
+                                                        <div class="modal-body">
+                                                            <div class="container">
+                                                                <div class="row justify-content-center">
+                                                                    <div class="col-7 text-center form-group">
+                                                                        <label for="idDelete"><b>ID</b></label>
+                                                                        <input type="text"
+                                                                               id="idDelete" class="form-control"
+                                                                               disabled/>
+                                                                    </div>
+                                                                    <div class="col-7 text-center form-group">
+                                                                        <label for="usernameDelete"><b>Username</b></label>
+                                                                        <input type="text" class="form-control"
+                                                                               id="usernameDelete"
+                                                                               disabled/>
+                                                                    </div>
+
+                                                                    <div class="col-7 text-center form-group">
+                                                                        <label for="surnameDelete"><b>Surname</b></label>
+                                                                        <input type="text" class="form-control"
+                                                                               disabled
+                                                                               id="surnameDelete"/>
+                                                                    </div>
+                                                                    <div class="col-7 text-center form-group">
+                                                                        <label for="ageDelete"><b>Age</b></label>
+                                                                        <input type="number" name="t"
+                                                                               min="0"
+                                                                               max="150" step="1"
+                                                                               class="form-control"
+                                                                               id="ageDelete"
+                                                                               disabled/>
+                                                                    </div>
+                                                                    <div class="col-7 text-center form-group">
+                                                                        <label for="passwordDelete"><b>Password</b></label>
+                                                                        <input type="password" class="form-control"
+                                                                               id="passwordDelete" disabled/>
+                                                                    </div>
+                                                                    <div class="col-7 text-center form-group">
+                                                                        <label class="col" for="rolesDelete">
+                                                                            <b>Role</b><br>
+                                                                            <select id="rolesDelete" class="form-select w-100" name="roles"
+                                                                                    multiple size="2" disabled>
+                                                                                <option value="ADMIN">ADMIN</option>
+                                                                                <option value="USER">USER</option>
+                                                                            </select>
+                                                                        </label>
+                                                                        </p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                    data-dismiss="modal">Close
+                                                            </button>
+                                                            <button type="submit" class="btn btn-danger"  onclick="deleteUser()">Delete
+                                                            </button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+
                                         </tbody>
                                     </table>
                                 </div>
@@ -95,18 +241,18 @@
                                     <div class="card-body text-center">
                                         <form id="formNewUser" name="formNewUser">
                                             <p>
-                                                <label class="container-fluid" for="addUserame">
+                                                <label class="container-fluid" for="usernameAdd">
                                                     <b>Username</b>
                                                     <input class="form-control" type="text" name="firstName"
-                                                           id="addUserame" placeholder="username"
+                                                           id="usernameAdd" placeholder="username"
                                                            required>
                                                 </label>
                                             </p>
                                             <p>
-                                                <label class="container-fluid" for="nameAdd">
+                                                <label class="container-fluid" for="surnameAdd">
                                                     <b>Last name</b>
                                                     <input class="form-control" type="text" name="lastName"
-                                                           id="nameAdd" placeholder="surname"
+                                                           id="surnameAdd" placeholder="surname"
                                                            required>
                                                 </label>
                                             </p>
@@ -129,20 +275,19 @@
                                                 </label>
                                             </p>
                                             <p>
-                                                <label class="container-fluid" for="addUser">
+                                                <label class="container-fluid" for="addRolesUser">
                                                     <b>Role</b><br>
-                                                    <select id="addUser" class="form-select w-100" name="roles"
-                                                            multiple size="2">
-                                                        <option value="ROLE_ADMIN" selected>ADMIN</option>
-                                                        <option value="ROLE_USER" selected>USER</option>
+                                                    <select id="addRolesUser" class="form-select w-100" name="roles"
+                                                            multiple size="2" required>
+                                                        <option value="ROLE_ADMIN">ADMIN</option>
+                                                        <option value="ROLE_USER">USER</option>
 
                                                     </select>
                                                 </label>
                                             </p>
-                                            <button type="submit" id="newUserButton" class="btn btn-success btn-lg" onclick="addUser()">
-                                                Add new user
-                                            </button>
                                         </form>
+
+                                        <button type="submit" class="btn btn-success btn-lg" onclick="addUser()">Add new user</button>
                                     </div>
                                 </div>
                             </div>
@@ -187,7 +332,17 @@
 
 
 </div>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
 
+<script type="text/javascript" src="addNewUser.js"></script>
 
 <body/>
 <html/>
