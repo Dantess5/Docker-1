@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.util.UserValidator;
 import ru.kata.spring.boot_security.demo.models.User;
 import ru.kata.spring.boot_security.demo.service.UserServiceImpl;
@@ -17,11 +18,14 @@ public class AdminController {
     private final UserServiceImpl userServiceImpl;
     private final UserValidator userValidator;
 
+    private final RoleService roleService;
+
 
     @Autowired
-    public AdminController(UserServiceImpl userServiceImpl, UserValidator userValidator) {
+    public AdminController(UserServiceImpl userServiceImpl, UserValidator userValidator, RoleService roleService) {
         this.userServiceImpl = userServiceImpl;
         this.userValidator = userValidator;
+        this.roleService = roleService;
     }
 
     @GetMapping("/index")
@@ -31,7 +35,7 @@ public class AdminController {
 
     @GetMapping("/admin/registration")
     public String registrationPage(@ModelAttribute("user") User user, Model model) {
-        model.addAttribute("listRoles", userServiceImpl.getUserRoles());
+        model.addAttribute("listRoles", roleService.getUserRoles());
         return "admin/registration";
     }
 
@@ -40,20 +44,20 @@ public class AdminController {
             , BindingResult bindingResult) {
         userValidator.validate(user, bindingResult);
         if (bindingResult.hasErrors()) {
-            return "redirect:/admin/users";
+            return "redirect:/users";
         }
         userServiceImpl.saveUser(user);
         return "redirect:/admin/users";
     }
 
-    @GetMapping("/admin/users")
+    @GetMapping("/users")
     public String getUsers(Model model,@ModelAttribute("user") @Valid User user
             , BindingResult bindingResult  ) {
         User auth = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         model.addAttribute("users", userServiceImpl.getAllUsers());
         model.addAttribute("person", userServiceImpl.findUserByUsername(auth.getUsername()));
-        model.addAttribute("listRoles", userServiceImpl.getUserRoles());
-        return "admin/users";
+        model.addAttribute("listRoles", roleService.getUserRoles());
+        return "users";
     }
 
     @GetMapping("/admin/{id}/edit")
@@ -66,12 +70,12 @@ public class AdminController {
     public String update(@ModelAttribute("user") User user
             , @PathVariable("id") Long id) {
         userServiceImpl.updateUser(id, user);
-        return "redirect:/admin/users";
+        return "redirect:/users";
     }
 
     @DeleteMapping("/admin/{id}")
     public String delete(@PathVariable("id") Long id) {
         userServiceImpl.deleteUser(id);
-        return "redirect:/admin/users";
+        return "redirect:/users";
     }
 }

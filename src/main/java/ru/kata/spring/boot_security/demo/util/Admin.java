@@ -26,6 +26,6 @@ public class Admin {
         Role role = new Role("ROLE_ADMIN");
         Role roleUser = new Role("ROLE_USER");
         user.setRoles(List.of(role, roleUser));
-        userService.saveUser(user);
+        userService.saveAdmin(user);
     }
 }

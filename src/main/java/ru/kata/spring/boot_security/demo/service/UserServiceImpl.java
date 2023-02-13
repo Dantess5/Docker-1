@@ -19,9 +19,6 @@ import java.util.*;
 @Service
 public class UserServiceImpl implements UserDetailsService, UserService {
 
-    @PersistenceContext
-    private EntityManager entityManager;
-
     private final UserRepository userRepository;
     private final PasswordEncoder bCryptPasswordEncoder;
     private final RoleRepository roleRepository;
@@ -45,16 +42,6 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         return userFromDb.orElse(new User());
     }
 
-    @Override
-    public void setUserRoles(User user) {
-        roleRepository.saveAll(user.getRoles());
-    }
-
-    @Override
-    public List<Role> getUserRoles() {
-        return roleRepository.findAll();
-    }
-
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -70,9 +57,9 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         return userRepository.findAll();
     }
 
-    @Transactional
+
     @Override
-    public void saveUser(User user) {
+    public void saveAdmin(User user) {
         User userFromDB = userRepository.findByUsername(user.getUsername());
 
         if (userFromDB != null) {
@@ -82,18 +69,38 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         userRepository.save(user);
     }
 
-    @Transactional
+    @Override
+    public void saveUser(User user) {
+        User userFromDB = userRepository.findByUsername(user.getUsername());
+
+        if (userFromDB != null) {
+            return;
+        }
+        if (user.getStringRoles().equals("ADMIN")) {
+            user.setRoles(List.of( roleRepository.findById(1L).get()));
+        } else if (user.getStringRoles().equals("USER")) {
+            user.setRoles(List.of(roleRepository.findById(2L).get()));
+        } else {
+            user.setRoles( roleRepository.findAll());
+        }
+
+
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        userRepository.save(user);
+    }
+
+
     @Override
     public void deleteUser(Long userId) {
         userRepository.deleteById(userId);
     }
 
-    @Transactional
+
     @Override
     public void updateUser(Long userId, User user) {
         if (userRepository.findById(userId).isPresent()) {
             user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-            entityManager.merge(user);
+            userRepository.save(user);
         }
 
     }

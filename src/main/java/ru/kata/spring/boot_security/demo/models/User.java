@@ -1,5 +1,7 @@
 package ru.kata.spring.boot_security.demo.models;
 
+import lombok.*;
+import org.hibernate.Hibernate;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.springframework.security.core.GrantedAuthority;
@@ -11,11 +13,13 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.Collection;
-
 import java.util.List;
 import java.util.Objects;
 
-
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
 @Entity
 @Table(name = "User")
 public class User implements UserDetails {
@@ -53,9 +57,6 @@ public class User implements UserDetails {
     )
     private List<Role> roles;
 
-    public User() {
-    }
-
     public User(String name, String surname, Integer age,String password) {
         this.username = name;
         this.surname = surname;
@@ -67,7 +68,8 @@ public class User implements UserDetails {
     private String stringRoles;
 
     public String getStringRoles() {
-        return getRoles().toString().replace("[", "")
+
+        return String.valueOf(getRoles()).replace("[", "")
                 .replace("]", "")
                 .replace(",", "")
                 .replace("ROLE_", "");
@@ -99,65 +101,16 @@ public class User implements UserDetails {
     }
 
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public List<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(List<Role> roles) {
-        this.roles = roles;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-
-    public Integer getAge() {
-        return age;
-    }
-
-    public void setAge(Integer age) {
-        this.age = age;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
         User user = (User) o;
-        return Objects.equals(id, user.id) && Objects.equals(username, user.username) && Objects.equals(surname, user.surname) && Objects.equals(age, user.age) && Objects.equals(password, user.password) && Objects.equals(roles, user.roles);
+        return id != null && Objects.equals(id, user.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, surname, age, password, roles);
+        return getClass().hashCode();
     }
 }

@@ -1,11 +1,18 @@
 package ru.kata.spring.boot_security.demo.models;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 import java.util.Objects;
 
 
+@Getter
+@Setter
+@RequiredArgsConstructor
 @Entity
 @Table(name = "role")
 public class Role implements GrantedAuthority {
@@ -15,8 +22,6 @@ public class Role implements GrantedAuthority {
     private Long id;
 
     private String role;
-    public Role() {
-    }
 
 
     public Role(String role) {
@@ -42,13 +47,7 @@ public class Role implements GrantedAuthority {
     public String getAuthority() {
         return role;
     }
-    public void setRole(String role) {
-        this.role = role;
-    }
 
-    public String getRole() {
-        return role;
-    }
 
     @Override
     public boolean equals(Object o) {
