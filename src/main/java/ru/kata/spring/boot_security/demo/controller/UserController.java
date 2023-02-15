@@ -17,10 +17,10 @@ public class UserController {
         this.userServiceImpl = userServiceImpl;
 
     }
-    @GetMapping("/users/show")
+    @GetMapping("/userOne/show")
     public String get(Model model) {
         User auth = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         model.addAttribute("user", userServiceImpl.findUserById(auth.getId()));
-        return "users/show";
+        return "userOne/show";
     }
 }

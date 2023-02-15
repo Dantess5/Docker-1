@@ -97,7 +97,7 @@ function editUser() {
     let surname = document.getElementById('surnameEdit').value;
     let age = document.getElementById('ageEdit').value;
     let password = document.getElementById('passwordEdit').value;
-    let roles = $('[id="rolesEdit"]').val()
+    let roles = $("#rolesEdit").val()
 
 
     for (let i = 0; i < roles.length; i++) {
@@ -142,7 +142,7 @@ function addUser() {
     let surname = document.getElementById('surnameAdd').value;
     let age = document.getElementById('ageAdd').value;
     let password = document.getElementById('passwordAdd').value;
-    let roles = $('[id="addRolesUser"]').val()
+    let roles = $("#addRolesUser").val()
 
     fetch('/api/users', {
         method: 'POST',
